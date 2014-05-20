@@ -14,13 +14,20 @@ net.createServer (sock) ->
 
 	sock.on 'data', (buffer) ->
 		console.log "recieved from: #{data.address}"
-		pack = packet.parse buffer
-		if pack? and data.address is pack.src_addr
-			console.log "send to: #{pack.dest_addr}"
-			if sockets[pack.dest_addr]?
-				other = sockets[pack.dest_addr]
+		pac = packet.parse buffer
+		if pac? and data.address is pac.src_addr or pac.src_addr is '127.0.0.1'
+			console.log "send to: #{pac.dest_addr}"
+			pac.src_addr = data.virtual
+			if pac.dest_addr is '255.255.255.255'
+				console.log "transfer to broadcast"
+				for add, other of sockets
+					unless other is sock
+						console.log "transfer to: #{other.server_data.address}"
+						other.write packet.dump(pac)
+			else if sockets[pac.dest_addr]?
+				other = sockets[pac.dest_addr]
 				console.log "transfer to: #{other.server_data.address}"
-				other.write pack.data
+				other.write packet.dump(pac)
 			else
 				console.log 'bad data'
 		else
@@ -29,7 +36,6 @@ net.createServer (sock) ->
 	sock.on 'close', ->
 		console.log "#{data.address} disconnected"
 		delete sockets[data.virtual]
-		console.log sockets
 
 	sock.on 'error', ->
 

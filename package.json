@@ -1,8 +1,11 @@
 {
-	"name"		: "plan_server",
+	"name"		: "zc-lan-server",
 	"version"	: "0.1.0",
 	"author"	: "gyf1214",
 	"dependencies": {
 		"coffee-script": "*"
+	},
+	"scripts"	: {
+		"start"	: "node bin/init.js"
 	}
 }

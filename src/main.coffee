@@ -15,7 +15,7 @@ net.createServer (sock) ->
 	sock.on 'data', (buffer) ->
 		console.log "recieved from: #{data.address}"
 		pac = packet.parse buffer
-		if pac? and data.address is pac.src_addr or pac.src_addr is '127.0.0.1'
+		if pac?
 			console.log "send to: #{pac.dest_addr}"
 			pac.src_addr = data.virtual
 			if pac.dest_addr is '255.255.255.255'

@@ -1,0 +1,4 @@
+pid 'tmp/zc-lan.pid'
+log 'tmp/zc-lan.log'
+err 'tmp/error.log'
+run 'node bin/init.js'

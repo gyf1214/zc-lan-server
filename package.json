@@ -6,6 +6,7 @@
 		"coffee-script": "*"
 	},
 	"scripts"	: {
-		"start"	: "node bin/init.js"
+		"start"	: "rork start",
+		"stop"	: "rork stop"
 	}
 }
